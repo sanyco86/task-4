@@ -1,3 +1,11 @@
+# == Schema Information
+#
+# Table name: services
+#
+#  id   :bigint(8)        not null, primary key
+#  name :string
+#
+
 class Service < ApplicationRecord
   SERVICES = [
     'WiFi',
@@ -14,6 +22,7 @@ class Service < ApplicationRecord
 
   has_and_belongs_to_many :buses, join_table: :buses_services
 
-  validates :name, presence: true
+  validates :name, presence:   true
+  validates :name, uniqueness: true
   validates :name, inclusion: { in: SERVICES }
 end

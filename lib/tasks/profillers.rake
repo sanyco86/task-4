@@ -23,10 +23,10 @@ namespace :prof do
 end
 
 # first run
-# Calculating -------------------------------------
-# Process small.json      0.045  (± 0.0%) i/s -      1.000  in  22.001127s
+# Process small.json  22.001127s
 
-#last run
-#Calculating -------------------------------------
-# Process small.json      0.237  (± 0.0%) i/s -      2.000  in   8.430203s
+#before tune postgres run
+# Process small.json  8.430203s
 
+#after tune postgres run
+# Process small.json 4.182239s

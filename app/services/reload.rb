@@ -1,24 +1,8 @@
-
-
-
 # Benchmark.ips do |bench|
 #   bench.report("Process small.json") do
 #     Reload.new('fixtures/small.json').call
 #   end
 # end
-
-# from = City.find_by_name!('Самара')
-# to = City.find_by_name!('Москва')
-# trips = Trip.where(from: from, to: to).order(:start_time)
-#
-# json = JSON.parse(File.read('fixtures/example.json')).map(&:deep_symbolize_keys)
-# #
-# trips_hash = trips.map(&:to_h)
-#
-#
-# pp trips_hash
-#
-# pp trips_hash
 
 class Reload
   SQL_DELETE_QUERY = <<-SQL.freeze
@@ -61,8 +45,8 @@ class Reload
       query = <<-SQL
         INSERT INTO buses_services (bus_id, service_id)
         VALUES (
-          (SELECT id FROM buses WHERE number = '#{trip['bus']['number']}' AND model = '#{trip['bus']['model']}'),
-          (SELECT id FROM services WHERE name = '#{service}')
+          (SELECT id FROM buses WHERE number = '#{trip['bus']['number']}' AND model = '#{trip['bus']['model']}' LIMIT 1),
+          (SELECT id FROM services WHERE name = '#{service}' LIMIT 1)
         )
         ON CONFLICT (bus_id, service_id) DO NOTHING
         RETURNING id
@@ -89,7 +73,7 @@ class Reload
         '#{trip['duration_minutes']}',
         '#{trip['price_cents']}',
         (SELECT id FROM buses WHERE number = '#{trip['bus']['number']}')
-      ) RETURNING id
+      )
     SQL
   end
 end
